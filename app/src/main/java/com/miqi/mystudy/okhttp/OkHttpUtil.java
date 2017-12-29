@@ -81,4 +81,31 @@ public class OkHttpUtil {
             e.printStackTrace();
         }
     }
+
+    public static void postAsyncRequest(){
+        String url = "http://192.168.131.2:8080/login";
+        RequestBody body = new FormBody.Builder()
+                .add("account", "admin")
+                .add("passwd", "admin")
+                .build();
+
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+
+        Call call = mClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String json = response.body().string();
+                Log.d("okHttp", json);
+            }
+        });
+    }
 }
