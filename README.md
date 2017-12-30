@@ -3,7 +3,15 @@
 
 1. android.os.NetworkOnMainThreadException -- 在主线程进行网络请求
 2. 
+>###安卓异步加载
 
+
+- **为什么要使用异步加载？**
+	1. 还是安卓单线程模型
+	2. 耗时操作阻塞UI线程
+- **异步加载最常见的两种方式**
+	1. 多线程、线程池
+	2. AsyncTask
 >### OkHttp
 
 ##### OkHttp的使用
