@@ -22,9 +22,11 @@ import java.util.List;
 public class NewsAdapter extends BaseAdapter {
     private Context mContext;
     private List<MoocRsp.DataBean> datas;
+    private ImageLoader imageLoader;
     public NewsAdapter(Context context, List<MoocRsp.DataBean> data){
         this.mContext = context;
         this.datas = data;
+        imageLoader = new ImageLoader();
     }
     @Override
     public int getCount() {
@@ -60,8 +62,10 @@ public class NewsAdapter extends BaseAdapter {
         }
         String imgUrl = datas.get(i).getPicSmall();
         viewHolder.iv.setTag(imgUrl);
-        new ImageLoader().showImageByThread(viewHolder.iv,imgUrl);
-        //viewHolder.iv.setImageResource(R.mipmap.ic_launcher);
+        viewHolder.iv.setImageResource(R.mipmap.ic_launcher); //预设一个图片
+        //imageLoader.showImageByThread(viewHolder.iv,imgUrl); // 通过线程的方式加载图片
+        //imageLoader.showImageByAsyncTask(viewHolder.iv,imgUrl); //通过Async的方式加载图片
+        imageLoader.loadImage(viewHolder.iv,imgUrl); //加载图片
         viewHolder.tv_title.setText(datas.get(i).getName());
         viewHolder.tv_content.setText(datas.get(i).getDescription());
         return convertView;
