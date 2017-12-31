@@ -1,8 +1,10 @@
 package com.miqi.mystudy;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -47,7 +49,7 @@ public class MainActivity extends BaseActivity {
         //sendAsyncRequest();//测试发送异步GET请求
         //postRequest();
         //testRetrofit();
-        testGetBitMapFromUrl();
+        //testGetBitMapFromUrl();
         initListView();
     }
 
@@ -98,7 +100,7 @@ public class MainActivity extends BaseActivity {
 
     private void testGetBitMapFromUrl(){
         String imgUrl = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1515223809&di=1296cc04da405c452b39ec8a50d46d26&imgtype=jpg&er=1&src=http%3A%2F%2Ff.hiphotos.baidu.com%2Fzhidao%2Fwh%253D450%252C600%2Fsign%3D44eb28c9d32a60595245e91e1d0418ad%2Fa8773912b31bb051edfd7728327adab44bede0d1.jpg";
-        new ImageLoader().showImageByThread(iv,imgUrl);
+        new ImageLoader(this).showImageByThread(iv,imgUrl);
     }
 
     private String url = "http://www.imooc.com/api/teacher?type=4&num=30";
@@ -117,6 +119,7 @@ public class MainActivity extends BaseActivity {
             List<MoocRsp.DataBean> news = moocRsp.getData();
             NewsAdapter newsAdapter = new NewsAdapter(MainActivity.this,news);
             lv_news.setAdapter(newsAdapter);
+            lv_news.setOnScrollListener(newsAdapter);
         }
     }
     private MoocRsp getJsonData(String s) {
@@ -140,6 +143,18 @@ public class MainActivity extends BaseActivity {
             e.printStackTrace();
         }
         return result;
+    }
+    //重写返回事件，不销毁Activity
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            Intent i = new Intent(Intent.ACTION_MAIN);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            i.addCategory(Intent.CATEGORY_HOME);
+            startActivity(i);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }

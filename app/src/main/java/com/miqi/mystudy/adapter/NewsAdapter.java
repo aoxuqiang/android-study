@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.miqi.mystudy.R;
 import com.miqi.mystudy.bean.MoocRsp;
 import com.miqi.mystudy.util.ImageLoader;
+import com.miqi.mystudy.util.LogUtil;
 
 import java.util.List;
 
@@ -19,14 +21,14 @@ import java.util.List;
  * Created by aoxuqiang on 2017/12/30.
  */
 
-public class NewsAdapter extends BaseAdapter {
+public class NewsAdapter extends BaseAdapter implements AbsListView.OnScrollListener{
     private Context mContext;
     private List<MoocRsp.DataBean> datas;
     private ImageLoader imageLoader;
     public NewsAdapter(Context context, List<MoocRsp.DataBean> data){
         this.mContext = context;
         this.datas = data;
-        imageLoader = new ImageLoader();
+        imageLoader = new ImageLoader(context);
     }
     @Override
     public int getCount() {
@@ -75,5 +77,15 @@ public class NewsAdapter extends BaseAdapter {
         ImageView iv;
         TextView tv_title;
         TextView tv_content;
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView absListView, int i) {
+
+    }
+
+    @Override
+    public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        LogUtil.e("listView可见数量",visibleItemCount+"");
     }
 }
