@@ -14,6 +14,7 @@ import com.miqi.mystudy.R;
 import com.miqi.mystudy.bean.MoocRsp;
 import com.miqi.mystudy.util.ImageLoader;
 import com.miqi.mystudy.util.LogUtil;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class NewsAdapter extends BaseAdapter implements AbsListView.OnScrollList
     public NewsAdapter(Context context, List<MoocRsp.DataBean> data){
         this.mContext = context;
         this.datas = data;
-        imageLoader = new ImageLoader(context);
+        //imageLoader = new ImageLoader(context);
     }
     @Override
     public int getCount() {
@@ -67,7 +68,12 @@ public class NewsAdapter extends BaseAdapter implements AbsListView.OnScrollList
         viewHolder.iv.setImageResource(R.mipmap.ic_launcher); //预设一个图片
         //imageLoader.showImageByThread(viewHolder.iv,imgUrl); // 通过线程的方式加载图片
         //imageLoader.showImageByAsyncTask(viewHolder.iv,imgUrl); //通过Async的方式加载图片
-        imageLoader.loadImage(viewHolder.iv,imgUrl); //加载图片
+        //imageLoader.loadImage(viewHolder.iv,imgUrl); //加载图片
+        Picasso picasso = Picasso.with(mContext);
+        picasso.setIndicatorsEnabled(true);//蓝色：从本地缓存读取的图片，红色：从网络加载的图片，绿色：从内存缓存加载的图片
+        picasso.setLoggingEnabled(true);//日志调试模式
+        picasso.load(imgUrl).into(viewHolder.iv);
+
         viewHolder.tv_title.setText(datas.get(i).getName());
         viewHolder.tv_content.setText(datas.get(i).getDescription());
         return convertView;

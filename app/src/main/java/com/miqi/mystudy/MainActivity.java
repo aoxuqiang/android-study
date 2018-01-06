@@ -17,6 +17,7 @@ import com.miqi.mystudy.okhttp.OkHttpUtil;
 import com.miqi.mystudy.retrofit.ApiService;
 import com.miqi.mystudy.retrofit.RetrofitClient;
 import com.miqi.mystudy.util.ImageLoader;
+import com.miqi.mystudy.util.LogUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -116,6 +117,10 @@ public class MainActivity extends BaseActivity {
 
         @Override
         protected void onPostExecute(MoocRsp moocRsp) {
+            if(moocRsp == null){
+                LogUtil.e("请求数据","失败");
+                return;
+            }
             List<MoocRsp.DataBean> news = moocRsp.getData();
             NewsAdapter newsAdapter = new NewsAdapter(MainActivity.this,news);
             lv_news.setAdapter(newsAdapter);
